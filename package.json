@@ -15,7 +15,9 @@
     "react-native-elements": "^1.1.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^5.0.0",
+    "eslint": "^5.14.1",
+    "eslint-plugin-react": "^7.12.4"
   },
   "private": true
 }
