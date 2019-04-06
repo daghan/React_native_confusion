@@ -8,6 +8,7 @@ import Menu from './MenuComponent';
 import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
+import About from './AboutComponent';
 import { DISHES } from '../shared/dishes';
 
 
@@ -59,21 +60,36 @@ const ContactNavigator = createStackNavigator({
 })
 });
 
+const AboutNavigator = createStackNavigator({
+  About: { screen: About }
+}, 
+{
+  defaultNavigationOptions: ({ navigation }) => ({
+  headerStyle: {
+      backgroundColor: "#512DA8"
+  },
+  headerTitleStyle: {
+      color: "#fff"            
+  },
+  headerTintColor: "#fff"  
+})
+});
+
 
 
 const MainNavigator = createDrawerNavigator({
-  Contact: { 
-    screen: ContactNavigator,
-    navigationOptions: {
-      title: 'Contact Us',
-      drawerLabel: 'Contact Us'
-    }
-  },
     Home: { 
       screen: HomeNavigator,
       navigationOptions: {
         title: 'Home',
         drawerLabel: 'Home'
+      }
+    },
+    About: { 
+      screen: AboutNavigator,
+      navigationOptions: {
+        title: 'About Us',
+        drawerLabel: 'About Us'
       }
     },
     Menu: { 
@@ -82,8 +98,15 @@ const MainNavigator = createDrawerNavigator({
         title: 'Menu',
         drawerLabel: 'Menu'
       }, 
+    },
+    Contact: { 
+      screen: ContactNavigator,
+      navigationOptions: {
+        title: 'Contact Us',
+        drawerLabel: 'Contact Us'
+      }
     }
-  }, 
+  },
   {
     drawerBackgroundColor: '#D1C4E9'
   }
