@@ -7,27 +7,18 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
     "expo": "^32.0.0",
-    "prop-types": "^15.7.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-elements": "^1.1.0",
-    "react-native-gesture-handler": "^1.0.16",
-    "react-native-screens": "^1.0.0-alpha.22",
-    "react-native-vector-icons": "^6.3.0",
-    "react-navigation": "^3.6.1",
-    "react-redux": "^7.0.1",
-    "react-thunk": "^1.0.0",
-    "redux": "^4.0.1",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "react-native-elements": "^1.0.0-beta8",
+    "react-navigation": "2.0.1",
+    "react-redux": "5.0.7",
+    "redux": "4.0.0",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.2.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0",
-    "eslint": "^5.14.1",
-    "eslint-plugin-react": "^7.12.4"
+    "babel-preset-expo": "^5.0.0"
   },
   "private": true
 }

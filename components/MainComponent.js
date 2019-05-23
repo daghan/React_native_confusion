@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { View, Platform, Text, ScrollView, Image, StyleSheet  } from 'react-native';
 import { createStackNavigator, createDrawerNavigator, createAppContainer, DrawerItems, SafeAreaView } from 'react-navigation';
+
+import { View, Platform, Text, ScrollView, Image, StyleSheet  } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 
+import { connect } from 'react-redux';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
 
 import Menu from './MenuComponent';
@@ -11,7 +14,25 @@ import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
-import { DISHES } from '../shared/dishes';
+import HomeComponent from './HomeComponent';
+
+
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => {dispatch(fetchComments())},
+  fetchPromos: () => {dispatch(fetchPromos())},
+  fetchLeaders: () => {dispatch(fetchLeaders())},
+})
 
 
 const MenuNavigator = createStackNavigator({
@@ -20,7 +41,7 @@ const MenuNavigator = createStackNavigator({
   },
   {
     initialRouteName: 'Menu',
-    defaultNavigationOptions:({ navigation }) => ({
+    navigationOptions:({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#512DA8"
       },
@@ -33,11 +54,12 @@ const MenuNavigator = createStackNavigator({
   }
 );
 
+
 const HomeNavigator = createStackNavigator({
     Home: { screen: Home }
   }, 
   {
-    defaultNavigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }) => ({
       headerStyle: {
           backgroundColor: "#512DA8"
       },
@@ -54,7 +76,7 @@ const ContactNavigator = createStackNavigator({
   Contact: { screen: Contact }
 }, 
 {
-  defaultNavigationOptions: ({ navigation }) => ({
+  navigationOptions: ({ navigation }) => ({
     headerStyle: {
         backgroundColor: "#512DA8"
     },
@@ -70,7 +92,7 @@ const AboutNavigator = createStackNavigator({
   About: { screen: About }
 }, 
 {
-  defaultNavigationOptions: ({ navigation }) => ({
+  navigationOptions: ({ navigation }) => ({
     headerStyle: {
         backgroundColor: "#512DA8"
     },
@@ -170,12 +192,12 @@ const MainNavigator = createDrawerNavigator({
 
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dishes: DISHES, 
-      selectedDish: null 
-    };
+
+  componentDidMount() {
+    this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
 
 
@@ -184,11 +206,10 @@ class Main extends Component {
 }
 
   render() {
-    const App = createAppContainer(MainNavigator);
 
     return (
       <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
-        <App />
+         <MainNavigator />
       </View>
     );
   }
@@ -217,5 +238,6 @@ const styles = StyleSheet.create({
     height: 60
   }
 });
-  
-export default Main;
+
+
+export default connect(mapStateToProps, mapDispatchToProps, null, options = {pure: false})(Main);
