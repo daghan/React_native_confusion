@@ -138,6 +138,22 @@ const CustomDrawerContentComponent = (props) => (
 
 
 const MainNavigator = createDrawerNavigator({
+
+  Menu: { 
+    screen: MenuNavigator,
+    navigationOptions: {
+      title: 'Menu',
+      drawerLabel: 'Menu',
+        drawerIcon: ({ tintColor, focused }) => (
+          <Icon
+            name='list'
+            type='font-awesome'            
+            size={24}
+            color={tintColor}
+          />
+        )
+    }
+  },
     Home: { 
       screen: HomeNavigator,
       navigationOptions: {
@@ -166,21 +182,6 @@ const MainNavigator = createDrawerNavigator({
             color={tintColor}
           />
         )
-      }
-    },
-    Menu: { 
-      screen: MenuNavigator,
-      navigationOptions: {
-        title: 'Menu',
-        drawerLabel: 'Menu',
-          drawerIcon: ({ tintColor, focused }) => (
-            <Icon
-              name='list'
-              type='font-awesome'            
-              size={24}
-              color={tintColor}
-            />
-          )
       }
     },
     Contact: { 
