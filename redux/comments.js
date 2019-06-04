@@ -20,10 +20,9 @@ export const comments = (state = { errMess: null, comments:[]}, action) => {
         author: action.payload.author,
         date: action.payload.date
       }
-      console.log(JSON.stringify(newComment));
-      const comments = state.comments;
-      comments.push(newComment);
-      return {...state, errMess: null, comments: comments};
+      return { ...state, comments: state.comments.concat(newComment)};
+      //comments.push(newComment);
+      //return {...state, errMess: null, comments: comments};
 
 
     case ActionTypes.COMMENTS_FAILED:

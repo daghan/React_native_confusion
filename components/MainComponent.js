@@ -15,6 +15,7 @@ import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent'
 
 
 
@@ -35,6 +36,23 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
+const HomeNavigator = createStackNavigator({
+  Home: { screen: Home }
+}, 
+{
+  navigationOptions: ({ navigation }) => ({
+    headerStyle: {
+        backgroundColor: "#512DA8"
+    },
+    headerTitleStyle: {
+        color: "#fff"            
+    },
+    headerTintColor: "#fff",
+    headerLeft: <Icon name="menu" size={24} color= 'white' onPress={ () => navigation.toggleDrawer() } />    
+  })
+}
+);
+
 const MenuNavigator = createStackNavigator({
     Menu: { screen: Menu },
     Dishdetail: { screen: Dishdetail }
@@ -54,23 +72,6 @@ const MenuNavigator = createStackNavigator({
   }
 );
 
-
-const HomeNavigator = createStackNavigator({
-    Home: { screen: Home }
-  }, 
-  {
-    navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-          backgroundColor: "#512DA8"
-      },
-      headerTitleStyle: {
-          color: "#fff"            
-      },
-      headerTintColor: "#fff",
-      headerLeft: <Icon name="menu" size={24} color= 'white' onPress={ () => navigation.toggleDrawer() } />    
-    })
-  }
-);
 
 const ContactNavigator = createStackNavigator({
   Contact: { screen: Contact }
@@ -102,6 +103,24 @@ const ReservationNavigator = createStackNavigator({
     headerLeft: <Icon name="menu" size={24} color= 'white' onPress={ () => navigation.navigate('DrawerToggle') } />    
   })
 })
+
+const FavoritesNavigator = createStackNavigator({
+  Favorites: { screen: Favorites }
+}, {
+  navigationOptions: ({ navigation }) => ({
+    headerStyle: {
+        backgroundColor: "#512DA8"
+    },
+    headerTitleStyle: {
+        color: "#fff"            
+    },
+    headerTintColor: "#fff",
+    headerLeft: <Icon name="menu" size={24}
+      iconStyle={{ color: 'white' }} 
+      onPress={ () => navigation.navigate('DrawerToggle') } />    
+  })
+})
+
 
 const AboutNavigator = createStackNavigator({
   About: { screen: About }
@@ -139,21 +158,6 @@ const CustomDrawerContentComponent = (props) => (
 
 const MainNavigator = createDrawerNavigator({
 
-  Menu: { 
-    screen: MenuNavigator,
-    navigationOptions: {
-      title: 'Menu',
-      drawerLabel: 'Menu',
-        drawerIcon: ({ tintColor, focused }) => (
-          <Icon
-            name='list'
-            type='font-awesome'            
-            size={24}
-            color={tintColor}
-          />
-        )
-    }
-  },
     Home: { 
       screen: HomeNavigator,
       navigationOptions: {
@@ -169,6 +173,24 @@ const MainNavigator = createDrawerNavigator({
         )
       }
     },
+
+    Menu: { 
+      screen: MenuNavigator,
+      navigationOptions: {
+        title: 'Menu',
+        drawerLabel: 'Menu',
+          drawerIcon: ({ tintColor, focused }) => (
+            <Icon
+              name='list'
+              type='font-awesome'            
+              size={24}
+              color={tintColor}
+            />
+          )
+      }
+    },
+
+    
     About: { 
       screen: AboutNavigator,
       navigationOptions: {
@@ -197,6 +219,21 @@ const MainNavigator = createDrawerNavigator({
             color={tintColor}
           />
         )
+      }
+    },
+    Favorites :
+    { screen: FavoritesNavigator,
+      navigationOptions: {
+        title: 'My Favorites',
+        drawerLabel: 'My Favorites',
+        drawerIcon: ({ tintColor, focused }) => (
+          <Icon
+            name='heart'
+            type='font-awesome'            
+            size={24}
+            iconStyle={{ color: tintColor }}
+          />
+        ),
       }
     },
     Reservation: { 
