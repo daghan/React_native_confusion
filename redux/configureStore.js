@@ -1,17 +1,24 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import { persistStore, persistCombineReducers } from 'redux-persist';
+import storage from 'redux-persist/es/storage';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { Dishes } from './dishes';
+import { dishes } from './dishes';
 import { comments } from './comments';
 import { promotions } from './promotions';
 import { leaders } from './leaders';
 import { favorites } from './favorites';
 
+const config = {
+    key: 'root',
+    storage,
+    debug: true
+}
 
 export const ConfigureStore = () => {
     const store = createStore(
-        combineReducers({
-            dishes: Dishes,
+        persistCombineReducers(config, {
+            dishes,
             comments,
             promotions,
             leaders,
@@ -19,6 +26,7 @@ export const ConfigureStore = () => {
         }),
         applyMiddleware(thunk)
     );
+        const persistor = persistStore(store)
 
-    return store;
+    return { persistor, store };
 }

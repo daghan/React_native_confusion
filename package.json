@@ -18,10 +18,13 @@
     "react-redux": "5.0.7",
     "redux": "4.0.1",
     "redux-logger": "3.0.6",
+    "redux-persist": "5.9.1",
     "redux-thunk": "2.2.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^5.0.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.13.0"
   },
   "private": true
 }
