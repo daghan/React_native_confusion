@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch => ({
 
 const LoginNavigator = createStackNavigator(
   {
-    Login: { screen: Login }
+    Login: Login
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -68,6 +68,7 @@ const LoginNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff"
       },
+      title: "Login",
       headerTintColor: "#fff",
       headerLeft: (
         <Icon
@@ -263,7 +264,12 @@ const MainNavigator = createDrawerNavigator(
         title: "Login",
         drawerLabel: "Login",
         drawerIcon: ({ tintColor, focused }) => (
-          <Icon name="sign-in" type="font-awesome" size={24} iconStyle={{ color: tintColor }} />
+          <Icon
+            name="sign-in"
+            type="font-awesome"
+            size={24}
+            iconStyle={{ color: tintColor }}
+          />
         )
       }
     },
@@ -351,8 +357,8 @@ const MainNavigator = createDrawerNavigator(
       }
     }
   },
-  { 
-    initialRouteName: 'Home',
+  {
+    initialRouteName: "Home",
     drawerBackgroundColor: "#D1C4E9",
     contentComponent: CustomDrawerContentComponent
   }
