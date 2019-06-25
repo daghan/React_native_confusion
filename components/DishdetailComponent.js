@@ -7,8 +7,7 @@ import {
   StyleSheet,
   Button,
   Alert,
-  PanResponder,
-  Share
+  PanResponder
 } from "react-native";
 import { Card, Icon, Rating, Input } from "react-native-elements";
 import React, { Component } from "react";
@@ -75,7 +74,8 @@ function RenderDish(props) {
           ],
           { cancelable: false }
         );
-      else if (recognizeComment(gestureState)) props.onCommentSwipe();
+      else if (recognizeComment(gestureState))
+        props.onCommentSwipe();
       return true;
     },
     onPanResponderGrant: () => {
@@ -86,19 +86,6 @@ function RenderDish(props) {
         );
     }
   });
-
-  const shareDish = (title, message, url) => {
-    Share.share(
-      {
-        title: title,
-        message: title + ": " + message + " " + url,
-        url: url
-      },
-      {
-        dialogTitle: "Share " + title
-      }
-    );
-  };
 
   if (dish != null) {
     return (
@@ -124,7 +111,11 @@ function RenderDish(props) {
               name={props.favorite ? "heart" : "heart-o"}
               type="font-awesome"
               color="#f50"
-              onPress={() => props.favorite ? console.log("Already favorite") : props.onPress()}
+              onPress={() =>
+                props.favorite
+                  ? console.log("Already favorite")
+                  : props.onPress()
+              }
             />
             <Icon
               raised
@@ -134,15 +125,6 @@ function RenderDish(props) {
               type="font-awesome"
               color="#512DA8"
               onPress={() => props.onPencilPress()}
-            />
-            <Icon
-              raised
-              reverse
-              name="share"
-              type="font-awesome"
-              color="#51D2A8"
-              style={styles.cardItem}
-              onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)}
             />
           </View>
         </Card>
