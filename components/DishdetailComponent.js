@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Button,
   Alert,
-  PanResponder
+  PanResponder,
+  Share
 } from "react-native";
 import { Card, Icon, Rating, Input } from "react-native-elements";
 import React, { Component } from "react";
@@ -32,7 +33,18 @@ const mapDispatchToProps = dispatch => ({
 
 function RenderDish(props) {
   const dish = props.dish;
+
   handleViewRef = ref => (this.view = ref);
+
+  const shareDish = (title, message, url) => {
+    Share.share({
+        title: title,
+        message: title + ': ' + message + ' ' + url,
+        url: url
+    },{
+        dialogTitle: 'Share ' + title
+    })
+  }
 
   const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
     console.log(moveX, moveY, dx, dy);
@@ -74,8 +86,7 @@ function RenderDish(props) {
           ],
           { cancelable: false }
         );
-      else if (recognizeComment(gestureState))
-        props.onCommentSwipe();
+      else if (recognizeComment(gestureState)) props.onCommentSwipe();
       return true;
     },
     onPanResponderGrant: () => {
@@ -125,6 +136,15 @@ function RenderDish(props) {
               type="font-awesome"
               color="#512DA8"
               onPress={() => props.onPencilPress()}
+            />
+            <Icon
+              raised
+              reverse
+              name="share"
+              type="font-awesome"
+              color="#51D2A8"
+              style={styles.cardItem}
+              onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image) }
             />
           </View>
         </Card>
