@@ -44,7 +44,7 @@ function RenderDish(props) {
     },{
         dialogTitle: 'Share ' + title
     })
-  }
+}
 
   const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
     console.log(moveX, moveY, dx, dy);
