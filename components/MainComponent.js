@@ -1,20 +1,6 @@
 import React, { Component } from "react";
-import {
-  createStackNavigator,
-  createDrawerNavigator,
-  createAppContainer,
-  DrawerItems,
-  SafeAreaView
-} from "react-navigation";
-
-import {
-  View,
-  Platform,
-  Text,
-  ScrollView,
-  Image,
-  StyleSheet
-} from "react-native";
+import { createStackNavigator, createDrawerNavigator, createAppContainer, DrawerItems, SafeAreaView } from "react-navigation";
+import { View, Platform, Text, ScrollView, Image, StyleSheet, NetInfo, t } from 'react-native';
 import { Icon } from "react-native-elements";
 
 import { connect } from "react-redux";
@@ -365,11 +351,49 @@ const MainNavigator = createDrawerNavigator(
 );
 
 class Main extends Component {
+
   componentDidMount() {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
+
+    NetInfo.getConnectionInfo()
+        .then((connectionInfo) => {
+          console.log('Initial Network Connectivity Type: '
+          + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType)
+            // ToastAndroid.show('Initial Network Connectivity Type: '
+            //     + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType,
+            //     ToastAndroid.LONG)
+        });
+
+    NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
+  }
+
+  handleConnectivityChange = (connectionInfo) => {
+    switch (connectionInfo.type) {
+      case 'none':
+        // ToastAndroid.show('You are now offline!', ToastAndroid.LONG);
+        console.log('You are now offline');
+        break;
+      case 'wifi':
+        // ToastAndroid.show('You are now connected to WiFi!', ToastAndroid.LONG);
+        console.log('You are now connected to WiFi!');
+        break;
+      case 'cellular':
+        // ToastAndroid.show('You are now connected to Cellular!', ToastAndroid.LONG);
+        console.log('You are now connected to Cellular!');
+        break;
+      case 'unknown':
+        console.log('You now have unknown connection!');
+        break;
+      default:
+        break;
+    }  
   }
 
   onDishSelect(dishId) {
