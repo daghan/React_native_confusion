@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, ScrollView, Image } from "react-native";
 import { Input, CheckBox, Button, Icon } from "react-native-elements";
-import {
-  SecureStore,
-  Camera,
-  Permissions,
-  ImagePicker,
-  Asset,
-  ImageManipulator
-} from "expo";
+import { SecureStore, Camera, Permissions, ImagePicker, Asset, ImageManipulator } from "expo";
 import { createBottomTabNavigator } from "react-navigation";
 import { baseUrl } from "../shared/baseUrl";
 
@@ -162,6 +155,23 @@ class RegisterTab extends Component {
     }
   };
 
+
+  getImageFromGallery = async () => {
+    // const cameraPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if ( cameraRollPermission.status === "granted") {
+      let galleryImage = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3]
+      });
+      if (!galleryImage.cancelled) {
+        console.log(galleryImage);
+        this.processImage(galleryImage.uri);
+      }
+    }
+  };
+
   processImage = async imageUri => {
     let processedImage = await ImageManipulator.manipulateAsync(
       imageUri,
@@ -207,6 +217,7 @@ class RegisterTab extends Component {
               style={styles.image}
             />
             <Button title="Camera" onPress={this.getImageFromCamera} />
+            <Button title="Gallery" onPress={this.getImageFromGallery} />
           </View>
           <Input
             placeholder="Username"
@@ -281,7 +292,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     flexDirection: "row",
-    margin: 20
+    margin: 20,
+    justifyContent: 'space-between',
   },
   image: {
     margin: 10,

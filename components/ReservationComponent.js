@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal, Alert } from "react-native";
 import DatePicker from "react-native-datepicker";
 import * as Animatable from "react-native-animatable";
-import { Permissions, Notifications } from 'expo';
+import { Permissions, Notifications , Calendar} from 'expo';
 
 class Reservation extends Component {
   constructor(props) {
@@ -20,6 +20,16 @@ class Reservation extends Component {
     title: "Reserve Table"
   };
 
+  async obtainCalendarPermission(){
+    let permission = await Permissions.getAsync(Permissions.CALENDAR);
+    if (permission.status !== 'granted') {
+        permission = await Permissions.askAsync(Permissions.CALENDAR);
+        if (permission.status !== 'granted') {
+            Alert.alert('Permission not granted to access the calendar');
+        }
+    }
+    return permission;
+  }
   async obtainNotificationPermission() {
     let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
     if (permission.status !== 'granted') {
@@ -46,7 +56,30 @@ class Reservation extends Component {
         }
     });
   }  
+
+// You should use the createEventAsync() function from the Calendar API to insert the event into the default calendar (Calendar.DEFAULT). 
+// This function takes a title, the start and end time, timezone and location as the parameters.
+// Use 'Con Fusion Table Reservation' as the title of the inserted event
+// To specify the start Date and end Date, you can convert the Date ISO string into a Date object by using new Date(Date.parse(date)). 
+// Furthermore, the Date.parse() gives you the date value in milliseconds. 
+// You can set up the end time by adding 2 hours (2*60*60*1000) to the milliseconds and use it to generate the Date object corresponding 
+// to the end time of the event.
+// For time zone use 'Asia/Hong_Kong', and the location as '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
   
+  async addReservationToCalendar(date) {
+    await this.obtainCalendarPermission();
+    startDate = new Date(Date.parse(date));
+    console.log('start Date: ' + JSON.stringify(startDate))
+    endDate = new Date(Date.parse(date) + (2*60*60*1000));
+    console.log('end Date: ' + JSON.stringify(startDate))
+    Calendar.createEventAsync(Calendar.DEFAULT, {
+      title: 'Con Fusion Table Reservation',
+      startDate: startDate, 
+      endDate: endDate,
+      location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong',
+      timeZone: 'Asia/Hong_Kong'
+    })
+  }
 
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
@@ -68,7 +101,8 @@ class Reservation extends Component {
             {
                 text: 'OK',
                 onPress: () => {
-                  this.presentLocalNotification(this.state.date)
+                  //this.presentLocalNotification(this.state.date);
+                  this.addReservationToCalendar(this.state.date);
                   this.resetForm()
                 }
             }
